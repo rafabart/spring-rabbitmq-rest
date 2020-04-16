@@ -1,0 +1,29 @@
+spring:
+
+  # Configurações de conexão com a instância do RabbitMQ.
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  # 'product-exchange' é um binding(vinculo) customizado usado na classe 'Source'
+  # definindo o exchange 'product-exchange' para quem usar a classe 'Source'.
+  # 'product-queue' é um queue(fila) customizado usado no exchange 'product-create'.
+  # Se for usar apenas um queue por exchange usar a propriedade 'group'.
+  # Se for usar um lista queues por exchange usar a propriedade 'requiredGroups'.
+  cloud:
+    stream:
+      bindings:
+        # Primeiro Exchange com 2 queues
+        product-exchange:
+          destination: product-exchange
+          producer:
+            requiredGroups: product-queue, product-queue2
+
+
+        # Segundo Exchange com 1 queues
+        user-exchange:
+          destination: user-exchange
+          producer:
+            group: user-queue

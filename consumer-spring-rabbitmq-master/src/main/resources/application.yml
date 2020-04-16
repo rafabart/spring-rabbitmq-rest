@@ -1,0 +1,44 @@
+# 0 -> O Spring se encarrega de encontrar uma porta do host desocupada
+# para subir a aplicação.
+server:
+  port: 0
+
+spring:
+
+  datasource:
+    url: jdbc:h2:file:~/db/incurabbitmq;AUTO_SERVER=TRUE
+    username: admin
+    password: 12345678
+    jpa:
+      show-sql: false
+      open-in-view: false
+      database-platform: org.hibernate.dialect.H2Dialect
+      properties:
+        hibernate:
+          format_sql: true
+      hibernate:
+        ddl-auto: create
+
+  # Configurações de conexão com a instância do RabbitMQ.
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+    # 'product-exchange' recebe as definições do exchange e queue, dos quais busca as
+    # mensagens, devem ser as mesmas configuradas no 'Producer'(API que envia as mensagem)
+    # Se for usar apenas um queue por exchange usar a propriedade 'group'.
+    # Se for usar um lista queues por exchange usar a propriedade 'requiredGroups'.
+  cloud:
+    stream:
+      bindings:
+        # Primeiro Exchange com 2 queues
+        product-exchange:
+          destination: product-exchange
+          requiredGroups: product-queue, product-queue2
+
+        # Segundo Exchange com 1 queues
+        user-exchange:
+          destination: user-exchange
+          group: user-queue
