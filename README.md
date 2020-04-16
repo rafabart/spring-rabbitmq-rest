@@ -34,7 +34,7 @@ URL: http://localhost:15672/#/
 
 Este projeto possui um produtor de mensagens(do tipo objeto da entidade 'Produto' e 'Usuario'), ele tem dois andpoints. O primeiro
 cria um 'Produto' e envia para o Broker(RabbitMQ), o segundo gera uma lista de 'Produtos' de forma randômica, a partir
-do numero fornecido e envia todos para o Broker.
+quantidade fornecido e envia todos para o Broker.
 
 O outro projeto dentro deste pacote é um consumidor do RabbitMQ, executando os dos projetos é possível verificar a comunicação entre elas atraves do RabittMQ.
 O projeto consumidor persiste os objetos recebidos do RabbitMQ em um banco H2.
